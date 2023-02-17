@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="author" content="CONIL Marvin, Test" />
+	<title>TD 1 - Exercice 1</title>
+	<link href="assets/favicon.ico" rel="icon" type="image/x-icon" />
+	<link rel="stylesheet" type="text/css" href="css/td1.css" />
+	<script defer="defer" src="js/td1.js"></script>
+</head>
+
+
+<body onload="onLoad();">
+	<!-- Your XHTM5 goes here ! -->
+	<h1 id="title" class="firstOrLast">Ceci est le titre H1</h1>
+
+	<h2>Ceci est le titre H2 b1</h2>
+
+	<h2 class="firstOrLast">Ceci est le titre H2 b2</h2>
+	<h3 class="firstOrLast">Ceci est le titre H3 b1</h3>
+
+	<h3>Ceci est le titre H3 b2</h3>
+	<h3>Ceci est le titre H3 b3</h3>
+
+	<div>
+		<p>Petit texte, balise <span>[span là]</span>, pas ici</p>
+	</div>
+
+	<div>
+		<p>Petit texte mais différent avec balise <span>[span là]</span>, pas ici</p>
+	</div>
+
+	<p>
+		Il reste xxx jours avant le 19 juillet 2023
+	</p>
+
+	<p id="clock"></p>
+
+	<div id="graphic-clock">
+		<p>Heure</p>
+	</div>
+
+	<form action="index.html" method="get">
+		<input id="input" class="" type="text">
+	</form>
+
+	<div id="menuDeroulant">
+		<ul>
+			<button type="button" id="button1" onclick="menuDeroulant(1)">+</button>
+			<li>Menu 1
+				<ul id="menu1">
+					<li>Sous-menu 1</li>
+					<li>Sous-menu 2</li>
+					<li>Sous-menu 3</li>
+				</ul>
+			</li>
+			<button type="button" id="button2" onclick="menuDeroulant(2)">+</button>
+			<li>Menu 2
+				<ul id="menu2">
+					<li>Sous-menu 3</li>
+				</ul>
+			</li>
+			<button type="button" id="button3" onclick="menuDeroulant(3)">+</button>
+			<li>Menu 3
+				<ul id="menu3">
+					<li>Sous-menu 1</li>
+					<li>Sous-menu 2</li>
+					<li>Sous-menu 3</li>
+					<li>Sous-menu 4</li>
+				</ul>
+			</li>
+			<button type="button" id="button4" onclick="menuDeroulant(4)">+</button>
+			<li>Menu 4
+				<ul id="menu4">
+					<li>Oui</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+
+	<div clas="search">
+		<p>
+			<input type="texte" id="rechercheTexte">
+			<button type="button" id="search" onclick="callNodeSearch()">Rechercher</button>
+		</p>
+		<p>
+			<input type="texte" id="rechercheInteractive" placeholder="interactive search">
+		</p>
+	</div>
+
+	<div class="update-date"></div>
+</body>
+
+
+</html>
