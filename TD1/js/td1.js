@@ -5,6 +5,10 @@ let message = 'JavaScript is ok :)';
 // alert( message);
 console.log(message);
 
+
+/**
+ * Fonction qui déclenche toute les fonctions du document
+ */
 function onLoad() {
 	console.log('In onLoad() function…');
 	// Your JavaScript code goes here !
@@ -17,9 +21,10 @@ function onLoad() {
 	getNbDats();
 	updateClock1();
 	// updateClock2();
-	updateGraphicClock();
+	// updateGraphicClock();
 	changeColorEvent();
 	// test();
+	searchInteractive();
 }
 
 function defineHeading1() {
@@ -50,6 +55,9 @@ function defineHeading4() {
 	}
 }
 
+/**
+ * Fonction qui inverse le contenu des deux paragraphes
+ */
 function swapInnerHTML() {
 	// On récupère les deux paragraphes
 	let pFirst = document.getElementsByTagName('p')[0];
@@ -61,6 +69,9 @@ function swapInnerHTML() {
 	pSecond.innerHTML = tmp;
 }
 
+/**
+ * Fonction qui modifie la date de modification du document et l'affiche sur la page et récupère l'auteur du document
+ */
 function dateAlter() {
 	const jours = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
 	const mois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
@@ -83,6 +94,9 @@ function dateAlter() {
 	date.innerHTML = 'Dernière modification : le ' + jours[dateAujourdui.getDay()] + ' ' + dateAujourdui.getDate() + ' ' + mois[dateAujourdui.getMonth()] + ' ' + dateAujourdui.getFullYear() + ' par ' + auteur;
 }
 
+/**
+ * Fonction qui récupère le nombre de jours restant avant une certaine date ici 19/07/2023
+ */
 function getNbDats() {
 	// On récupère le p en question
 	let p = document.getElementsByTagName('p')[2];
@@ -106,6 +120,9 @@ function getNbDats() {
 	});
 }
 
+/**
+ * Fonction qui met à jour l'horloge en utilisant setInterval()
+ */
 function updateClock1() {
 	// On récupere la balise qui contient la clock
 	let clock = document.getElementById('clock');
@@ -118,6 +135,9 @@ function updateClock1() {
 	}, 1000);
 }
 
+/**
+ * Fonction qui met à jour l'horloge en utilisant setInterval() et setTimeout() pour faire fonctionner
+ */
 function updateClock2() {
 	// On récupere la balise qui contient la clock
 	let clock = document.getElementById('clock');
@@ -131,6 +151,9 @@ function updateClock2() {
 	});
 }
 
+/**
+ * Fonction qui met à jour l'horloge graphique
+ */
 function updateGraphicClock() {
 	setInterval(() => {
 		clearGraphicClock();
@@ -138,6 +161,9 @@ function updateGraphicClock() {
 	}, 1000);
 }
 
+/**
+ * Fonction qui créer la clock graphique
+ */
 function createGraphicClock() {
 	let date = new Date();
 	let sep = document.createElement('span');
@@ -191,6 +217,9 @@ function createGraphicClock() {
 	container.appendChild(secondeImage2);
 }
 
+/**
+ * On supprime le clock graphique
+ */
 function clearGraphicClock() {
 	// On récupère la div
 	let container = document.getElementById('graphic-clock');
@@ -201,6 +230,9 @@ function clearGraphicClock() {
 	}
 }
 
+/**
+ * Change la couleur de l'input en fonction de ce que l'utilisateur rentre
+ */
 function changeColorEvent() {
 	// On change la couleur de l'input si ce que l'utilisateur rentre est correct ou non
 	document.getElementById('input').addEventListener('input', function () {
@@ -217,6 +249,10 @@ function changeColorEvent() {
 	});
 }
 
+/**
+ * Modifie le style du menu en fonction de si l'utilisateur à voulu agrandir ou non le menu
+ * @param {*} id : id du menu
+ */
 function menuDeroulant(id) {
 	const el = document.getElementById("menu" + id);
 	const button = document.getElementById('button' + id);
@@ -225,63 +261,66 @@ function menuDeroulant(id) {
 	button.innerHTML = (button.innerHTML == '+') ? '-' : '+';
 }
 
-function search() {
-	// On récupère le texte entré dans l'input
-	let texteRecherche = document.getElementById('rechercheTexte').value;
-	// On parcours tout  le document pour trouver les mots correspondant à la recherche
-	for (let i = 0; i < document.body.childNodes.length; i++) {
-		// si le noeud est un texte on le parcours
-		if (document.body.childNodes[i].nodeType == Node.ELEMENT_NODE) {
-			let text = document.body.childNodes[i].innerText;
-			let index = text.indexOf(texteRecherche);
-			if (index != -1) {
-				// On met l'arrière plan du mot en jaune
-				document.body.childNodes[i].innerHTML = text.replaceAll(texteRecherche, '<span style="background-color: yellow">' + texteRecherche + '</span>');
-			}
-		}
-	}
-}
 
-function searchRecursif(node, texteRecherche) {
-	// Si le noeud est un texte on le parcours
-	if (node.nodeType == Node.ELEMENT_NODE) {
-		let text = node.innerHTML;
-		// Le texte qui doit être remplacer ne doit pas être dans une balise
-		node.innerHTML = text.replaceAll(texteRecherche, '<span style="background-color: yellow">' + texteRecherche + '</span>');
-	} else {
-		// Sinon on parcours tout les enfants du noeud
-		for (let i = 0; i < node.childNodes.length; i++) {
-			searchRecursif(node.childNodes[i], texteRecherche);
-		}
-	}
-}
 
+/**
+ * Déclenche tout le processus de recherche
+ */
 function callNodeSearch() {
-	// On récupère le texte entré dans l'input
+	// On récupère l'input de l'utilisateur
 	let texteRecherche = document.getElementById('rechercheTexte').value;
-	// On parcours tout  le document pour trouver les mots correspondant à la recherche
-	searchRecursif(document.body, texteRecherche);
-	
+
+	// On supprime les anciens highlights
+	removeHighlights();
+
+	// On parcours tout le document pour trouver les mots correspondant à la recherche
+	highlightUserInput(document.body, texteRecherche);
 }
 
-function interactiveSearch() {
-	// On récupère dés qu'un caractère est entré dans l'input
-	document.getElementById('rechercheInteractive').addEventListener('input', function () {
-		// On récupère le texte entré dans l'input
-		let texteRecherche = this.value;
-		// On parcours tout  le document pour trouver les mots correspondant à la recherche
-		for (let i = 0; i < document.body.childNodes.length; i++) {
-			if (document.body.childNodes[i].innerHTML != undefined) {
-				let text = document.body.childNodes[i].innerHTML;
-				let index = text.indexOf(texteRecherche);
-				if (index != -1) {
-					// On met l'arrière plan du mot en jaune
-					document.body.childNodes[i].innerHTML = text.substring(0, index) + '<span style="background-color: yellow">' + text.substring(index, index + texteRecherche.length) + '</span>' + text.substring(index + texteRecherche.length);
-				}
-			}
+/**
+ * 
+ * @param {*} element : l'élément à parcourir
+ * @param {*} userInput : l'input de l'utilisateur
+ * Ajoute les highlights aux mots correspondant à la recherche de l'utilisateur
+ */
+function highlightUserInput(element, userInput) {
+	if (userInput === "") {
+		return; // rien à faire si l'input de l'utilisateur est vide
+	}
+
+	if (element.nodeType === Node.TEXT_NODE) {
+		let text = element.textContent.trim();
+		if (text !== "" && text.includes(userInput)) {
+			let highlightedText = text.replaceAll(userInput, `<span class="select">${userInput}</span>`);
+			element.parentElement.innerHTML = element.parentElement.innerHTML.replace(text, highlightedText);
 		}
-	});
-
+	} else {
+		let children = element.childNodes;
+		for (let i = 0; i < children.length; i++) {
+			highlightUserInput(children[i], userInput);
+		}
+	}
 }
 
-const height=parseInt(readline()),width=parseInt(readline()),material=readline();for(i=0;i<height;i++){for(j=0;j<width;j++)process.stdout.write(material);print()}
+/**
+ * Supprime les highlights du document
+ */
+function removeHighlights() {
+	let highlightedElements = document.querySelectorAll(".select");
+	highlightedElements.forEach(function (element) {
+		element.outerHTML = element.innerHTML;
+	});
+}
+
+/**
+ * Lance la recherche interactive
+ */
+function searchInteractive() {
+	let rechercheInteractive = document.getElementById('rechercheInteractive');
+
+	rechercheInteractive.addEventListener('input', function () {
+		let texteRecherche = this.value;
+		removeHighlights();
+		highlightUserInput(document.body, texteRecherche);
+	});
+}
