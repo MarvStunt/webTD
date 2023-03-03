@@ -5,6 +5,8 @@ let message = 'JavaScript is ok :)';
 // alert( message);
 console.log(message);
 
+let backupBody;
+
 
 /**
  * Fonction qui déclenche toute les fonctions du document
@@ -25,6 +27,7 @@ function onLoad() {
 	changeColorEvent();
 	// test();
 	searchInteractive();
+	backupBody = document.body.innerHTML;
 }
 
 function defineHeading1() {
@@ -261,8 +264,6 @@ function menuDeroulant(id) {
 	button.innerHTML = (button.innerHTML == '+') ? '-' : '+';
 }
 
-
-
 /**
  * Déclenche tout le processus de recherche
  */
@@ -271,7 +272,7 @@ function callNodeSearch() {
 	let texteRecherche = document.getElementById('rechercheTexte').value;
 
 	// On supprime les anciens highlights
-	removeHighlights();
+	removeHighlights(texteRecherche, "rechercheTexte");
 
 	// On parcours tout le document pour trouver les mots correspondant à la recherche
 	highlightUserInput(document.body, texteRecherche);
@@ -284,13 +285,13 @@ function callNodeSearch() {
  * Ajoute les highlights aux mots correspondant à la recherche de l'utilisateur
  */
 function highlightUserInput(element, userInput) {
-	if (userInput === "") {
+	if (userInput.length === 0 || userInput === "") {
 		return; // rien à faire si l'input de l'utilisateur est vide
 	}
-
+	
 	if (element.nodeType === Node.TEXT_NODE) {
 		let text = element.textContent.trim();
-		if (text !== "" && text.includes(userInput)) {
+		if (text !== "" && text != undefined && text.includes(userInput) && !text.includes("<span class=\"select\">")) {
 			let highlightedText = text.replaceAll(userInput, `<span class="select">${userInput}</span>`);
 			element.parentElement.innerHTML = element.parentElement.innerHTML.replace(text, highlightedText);
 		}
@@ -300,27 +301,31 @@ function highlightUserInput(element, userInput) {
 			highlightUserInput(children[i], userInput);
 		}
 	}
+	
 }
 
 /**
  * Supprime les highlights du document
  */
-function removeHighlights() {
-	let highlightedElements = document.querySelectorAll(".select");
-	highlightedElements.forEach(function (element) {
-		element.outerHTML = element.innerHTML;
-	});
+function removeHighlights(val,id) {
+	document.body.innerHTML = backupBody;
+	document.getElementById(id).value = val;
+	document.getElementById(id).focus();
 }
 
 /**
  * Lance la recherche interactive
  */
 function searchInteractive() {
-	let rechercheInteractive = document.getElementById('rechercheInteractive');
-
-	rechercheInteractive.addEventListener('input', function () {
-		let texteRecherche = this.value;
-		removeHighlights();
-		highlightUserInput(document.body, texteRecherche);
+	document.addEventListener('input', function (event) {
+		if(event.target.id === 'rechercheInteractive') {
+			event.preventDefault();
+			let val = document.getElementById('rechercheInteractive').value;
+			let texteRecherche = val;
+			console.log(texteRecherche);
+			removeHighlights(val, "rechercheInteractive");
+			highlightUserInput(document.body, texteRecherche);
+			
+		}
 	});
 }
