@@ -1,0 +1,24 @@
+@charset "utf-8";
+
+* {
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+}
+
+
+ul {
+	background-color: aquamarine;
+}
+
+#paragraphe {
+	background-color: #58c2ff;
+}
+
+.spanText {
+	background-color: #ffd651;
+}
+
+.select {
+	background-color: rgb(220, 239, 12);
+}

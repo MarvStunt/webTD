@@ -13,7 +13,6 @@ let backupBody;
  */
 function onLoad() {
 	console.log('In onLoad() function…');
-	// Your JavaScript code goes here !
 	defineHeading1();
 	defineHeading2();
 	defineHeading3();
@@ -238,16 +237,18 @@ function clearGraphicClock() {
  */
 function changeColorEvent() {
 	// On change la couleur de l'input si ce que l'utilisateur rentre est correct ou non
-	document.getElementById('input').addEventListener('input', function () {
-		if (isNaN(this.value)) {
-			// On met sa classe à .red
-			this.className = 'red';
-		} else if (this.value == "") {
-			// On met sa classe à .white
-			this.className = 'white';
-		} else {
-			// On met sa classe à .green
-			this.className = 'green';
+	document.getElementById('colorChange').addEventListener('input', function (event) {
+		if(event.target.id === "colorChange"){
+			if (isNaN(this.value)) {
+				// On met sa classe à .red
+				this.className = 'red';
+			} else if (this.value == "") {
+				// On met sa classe à .white
+				this.className = 'white';
+			} else {
+				// On met sa classe à .green
+				this.className = 'green';
+			}
 		}
 	});
 }
@@ -291,7 +292,7 @@ function highlightUserInput(element, userInput) {
 	
 	if (element.nodeType === Node.TEXT_NODE) {
 		let text = element.textContent.trim();
-		if (text !== "" && text != undefined && text.includes(userInput) && !text.includes("<span class=\"select\">")) {
+		if (text !== "" && text != undefined && (text.includes(userInput.toLowerCase()) || text.includes(userInput.toUpperCase())) && !text.includes("<span class=\"select\">")) {
 			let highlightedText = text.replaceAll(userInput, `<span class="select">${userInput}</span>`);
 			element.parentElement.innerHTML = element.parentElement.innerHTML.replace(text, highlightedText);
 		}
