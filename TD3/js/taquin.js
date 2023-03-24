@@ -4,10 +4,8 @@ function onLoad() {
 	// On ajoute un listener de selection sur les 8 cases du taquin
 	for (let i = 1; i <= 3; i++) {
 		for (let j = 1; j <= 3; j++) {
-			console.log("Cell : " + (("r" + i + "-c" + j)));
 			let cell = document.getElementById("r" + i + "-c" + j);
 			// Quand l'élement est selectionner alors on change son background
-			console.log("cell.class : " + cell.className);
 			cell.addEventListener("click", function () {
 				selection(cell);
 			});
