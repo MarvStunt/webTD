@@ -171,3 +171,164 @@ const personne5 = {
 
 const json3 = JSON.stringify(personne5);
 console.log(json3);
+
+// Exercice 2
+
+// 2.1
+console.log("2.1");
+const personne7 = {
+   nom: "Dupont",
+   prenom: "Jean",
+   age: 25,
+   taille: 1.75,
+   sports: [],
+   qui() {
+      console.log(`Nom: ${this.nom}, Prénom: ${this.prenom}`);
+   },
+   quimaj() {
+      console.log(`Nom: ${this.nom.toUpperCase()}, Prénom: ${this.prenom.toUpperCase()}`);
+   },
+   age() {
+      const diff = Date.now() - this.datenaissance.getTime();
+      const ageDate = new Date(diff);
+      return Math.abs(ageDate.getUTCFullYear() - 1970);
+   },
+   get lang() {
+      return this._lang;
+   },
+   set lang(lang) {
+      this._lang = lang;
+   },
+};
+
+/*
+
+Quelle est la différence entre le champ :
+• get fullName() { .. } permettant d’afficher le nom et prénom de l’objet personne,
+• et le champ fullName : function () { .. } permettant d’afficher le nom et prénom de
+l’objet personne ?
+
+La différence est que le premier est une propriété de l'objet, alors que le second est une méthode de l'objet.
+
+*/
+
+const obj = { counter: 0 };
+Object.defineProperty(obj, 'get', {
+   get: function () { this.counter = 0; }
+});
+
+Object.defineProperty(obj, 'set', {
+   set: function (value) { this.counter = value; }
+});
+
+Object.defineProperty(obj, 'incr', {
+   get: function () { this.counter++; }
+});
+
+Object.defineProperty(obj, 'decr', {
+   get: function () { this.counter--; }
+});
+
+Object.defineProperty(obj, 'reset', {
+   get: function () { this.counter = 0; }
+});
+
+Object.defineProperty(obj, 'add', {
+   set: function (value) { this.counter += value; }
+});
+
+Object.defineProperty(obj, 'sub', {
+   set: function (value) { this.counter -= value; }
+});
+
+// 2.2
+console.log("2.2");
+function personneConstruct(nom, prenom, age, yeuxCouleur) {
+   this.nom = nom;
+   this.prenom = prenom;
+   this.age = age;
+   this.yeuxCouleur = yeuxCouleur;
+   this.name = function () {
+      return `Nom: ${this.nom}, Prénom: ${this.prenom}`;
+   }
+   this.changeName = function (nom, prenom) {
+      this.nom = nom;
+      this.prenom = prenom;
+   }
+}
+
+const pere = new personneConstruct("Dupont", "Jean", 50, "bleu");
+const mere = new personneConstruct("Dupont", "Marie", 45, "vert");
+
+console.log(pere.name());
+console.log(mere.name());
+console.log(pere.changeName("Durand", "Jean"));
+console.log(pere.name());
+
+// 2.e
+console.log("2.e");
+let x1 = "Hello";
+console.log(x1 instanceof String); // false
+x1 = new String("Hello");
+console.log(x1 instanceof String); // true
+console.log(x1.length); // 5
+console.log(x1.toUpperCase()); // "HELLO"
+
+let x2 = "Hello";
+console.log(x2.length); // 5
+console.log(x2.toUpperCase()); // "HELLO"
+
+// 2.f
+console.log("2.f");
+console.log(Math.random());
+console.log(Math.abs(-24578.154));
+
+// Exercice 3
+
+// 3.1
+console.log("3");
+
+function personne2Construct(nom, prenom) {
+   this.nom = nom;
+   this.prenom = prenom;
+   this.estomac = [];
+   this.manger = function (nourriture) {
+      if (this.estomac.length <= 10) {
+         this.estomac.push(nourriture);
+      }
+   }
+   this.digestionOK = function () {
+      this.estomac = [];
+   }
+   this.name = function () {
+      return `Nom: ${this.nom}, Prénom: ${this.prenom}`;
+   }
+}
+
+// 3.2
+function Car(model, conso100km) {
+   this.model = model;
+   this.conso100km = conso100km;
+   this.compteurKm = 0;
+   this.reservoirLitre = 0;
+   this.addFuel = function (litre) {
+      this.reservoirLitre += litre;
+   }
+   this.drive = function (distance) {
+      if (this.reservoirLitre > 0 && this.reservoirLitre >= (distance * this.conso100km) / 100) {
+         this.compteurKm += distance;
+         this.reservoirLitre -= (distance * this.conso100km) / 100;
+      } else {
+         console.log("Je serais à court de carburant dans " + (this.reservoirLitre * 100) / this.conso100km + " km");
+      }
+   }
+}
+
+// 3.3
+function Baby(nom, prenom, jouetFavori) {
+   personne2Construct.call(this, nom, prenom);
+   this.jouetFavoris = jouetFavori;
+   this.jouer = function () {
+      console.log("Je joue avec mon jouet favorit " + this.jouetFavoris);
+   }
+}

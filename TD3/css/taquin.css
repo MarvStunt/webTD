@@ -25,7 +25,7 @@ h1 {
 	grid-template-rows: repeat(3, 100px);
 	width: fit-content;
 	height: fit-content;
-	margin: 0 auto;
+	margin: auto;
 }
 
 /* box */
